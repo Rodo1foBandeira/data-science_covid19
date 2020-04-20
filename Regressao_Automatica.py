@@ -1,3 +1,4 @@
+from statsmodels.tsa.ar_model import AR
 import pandas as pd
 import matplotlib.pyplot as plt
 
@@ -16,6 +17,8 @@ for value in df_brazil['Deaths']:
 
 df_brazil['Delta_Death'] = delta_death
 
-df_brazil[['Confirmed', 'Deaths', 'Delta_Confirmed', 'Delta_Deaph']].plot()
+model = AR(df_brazil['Delta_Death'].values)
 
-plt.show()
+model_fit = model.fit()
+
+yhat = model_fit.predict(len(df_brazil['Delta_Death']), len(df_brazil['Delta_Death']) + 7)
